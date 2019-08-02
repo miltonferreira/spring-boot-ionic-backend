@@ -17,7 +17,7 @@ import com.jotonferreira.cursomc.repositories.CategoriaRepository;
 public class CategoriaService {
 	
 	@Autowired
-	private CategoriaRepository repo;
+	private CategoriaRepository repo;					//Classe é interface
 	
 	//Metodo que procura o obj pelo id indicado
 	public Categoria buscar(Integer id) {
