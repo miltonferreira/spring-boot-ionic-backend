@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /*
 	"Camada de dominio"
 	
@@ -25,6 +27,7 @@ public class Categoria implements Serializable{
 	private Integer id;
 	private String nome;
 	
+	@JsonManagedReference								//chama os objs associados
 	@ManyToMany(mappedBy = "categorias")				//pega mapeamento da outra lista "categorias" na classe Produto
 	private List<Produto> produtos = new ArrayList<>();	//nome indicado no diagrama de classe
 	

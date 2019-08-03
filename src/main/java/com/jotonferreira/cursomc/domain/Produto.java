@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 //faz mapeamento da tabela "Produto" atraves do ID
 @Entity
 public class Produto implements Serializable{
@@ -24,8 +26,8 @@ public class Produto implements Serializable{
 	private String nome;
 	private Double preco;
 	
-	//mapear os relacionamentos entre tabelas, nesse caso entre Produto e Categoria
-	@ManyToMany
+	@JsonBackReference						//Omite a lista de categorias para cada produto, já que classe Categoria mostra associados 
+	@ManyToMany								//mapear os relacionamentos entre tabelas, nesse caso entre Produto e Categoria
 	@JoinTable(name = "PRODUTO_CATEGORIA",	//cria uma tabela intermédiaria entre as tabelas para usar as chaves estrangeiras
 		joinColumns = @JoinColumn(name = "produto_id"),
 		inverseJoinColumns = @JoinColumn(name = "categoria_id")
