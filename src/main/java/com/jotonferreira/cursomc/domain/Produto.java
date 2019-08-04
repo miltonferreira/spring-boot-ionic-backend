@@ -14,6 +14,11 @@ import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+/*
+"Camada de dominio"
+
+*/
+
 //faz mapeamento da tabela "Produto" atraves do ID
 @Entity
 public class Produto implements Serializable{
