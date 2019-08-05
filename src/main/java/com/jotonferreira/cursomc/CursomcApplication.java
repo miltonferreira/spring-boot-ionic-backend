@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jotonferreira.cursomc.domain.Categoria;
 import com.jotonferreira.cursomc.domain.Cidade;
+import com.jotonferreira.cursomc.domain.Cliente;
+import com.jotonferreira.cursomc.domain.Endereco;
 import com.jotonferreira.cursomc.domain.Estado;
 import com.jotonferreira.cursomc.domain.Produto;
+import com.jotonferreira.cursomc.domain.enums.TipoCliente;
 import com.jotonferreira.cursomc.repositories.CategoriaRepository;
 import com.jotonferreira.cursomc.repositories.CidadeRepository;
+import com.jotonferreira.cursomc.repositories.ClienteRepository;
+import com.jotonferreira.cursomc.repositories.EnderecoRepository;
 import com.jotonferreira.cursomc.repositories.EstadoRepository;
 import com.jotonferreira.cursomc.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class CursomcApplication implements CommandLineRunner{
 	private EstadoRepository	estadoRepository;		//interface responsável por busca, salvar, alterar, deletar informações
 	@Autowired
 	private CidadeRepository	cidadeRepository;		//interface responsável por busca, salvar, alterar, deletar informações
+	@Autowired
+	private ClienteRepository	clienteRepository;		//interface responsável por busca, salvar, alterar, deletar informações
+	@Autowired
+	private EnderecoRepository	enderecoRepository;		//interface responsável por busca, salvar, alterar, deletar informações
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -70,6 +79,20 @@ public class CursomcApplication implements CommandLineRunner{
 		est2.getCidades().addAll(Arrays.asList(c2, c3));			//Faz o estado saber quais cidades possui
 		
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));		//salva as cidades no banco de dados
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));				//salva os clientes no banco de dados
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));			//o cliente conhece seus enderecos, mas enderecos nao conhece clientes
+		
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));			//salva os enderecos no banco de dados
+		
+		
 		
 	}
 
