@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /*
 "Camada de dominio"
 
@@ -26,7 +28,8 @@ public class Estado implements Serializable{
 	private Integer id;
 	private String nome;
 	
-	@OneToMany(mappedBy="estado")	//indica quem fez o mapeamento
+	@JsonBackReference									//Não deixa serializar as cidades
+	@OneToMany(mappedBy="estado")						//indica quem fez o mapeamento
 	private List<Cidade> cidades = new ArrayList<>();	//estado tem varias cidades por isso uma lista
 	
 	public Estado() {}

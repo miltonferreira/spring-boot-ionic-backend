@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /*
 "Camada de dominio"
 
@@ -29,6 +31,7 @@ public class Endereco implements Serializable{
 	private String bairro;
 	private String cep;
 	
+	@JsonBackReference				//Não deixa serializar os clientes
 	@ManyToOne						//Muitos para um = Muitos endereços para UM cliente
 	@JoinColumn(name="cliente_id")	//nome da chave estrangeira
 	private Cliente cliente;		//Endereço tem somente UM cliente. cliente que fez o mapeamento para banco de dados
