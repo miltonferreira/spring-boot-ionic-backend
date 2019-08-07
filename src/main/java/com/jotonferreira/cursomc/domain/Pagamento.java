@@ -2,15 +2,31 @@ package com.jotonferreira.cursomc.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+
 import com.jotonferreira.cursomc.domain.enums.EstadoPagamento;
 
-public class Pagamento implements Serializable{
+//abstract evita que a classe seja instanciada, somente as subClasses sao instanciadas
+//faz mapeamento da tabela "Pagamento" atraves do ID
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)	//faz tabela separadas para as subClasses
+public abstract class Pagamento implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id
 	private Integer id;
-	private EstadoPagamento estado;
+	private Integer estado;
 	
+	@OneToOne
+	@JoinColumn(name="pedido_id")	//nome da tabela
+	@MapsId							//garante que id seja o mesmo para pedido/pagamento
 	private Pedido pedido;
 	
 	public Pagamento() {}
@@ -18,7 +34,7 @@ public class Pagamento implements Serializable{
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado;
+		this.estado = estado.getCod();			//integer pega um enum de EstadoPagamento
 		this.pedido = pedido;
 	}
 
@@ -31,11 +47,11 @@ public class Pagamento implements Serializable{
 	}
 
 	public EstadoPagamento getEstado() {
-		return estado;
+		return EstadoPagamento.toEnum(estado);	//o integer pega um enum de EstadoPagamento	
 	}
 
 	public void setEstado(EstadoPagamento estado) {
-		this.estado = estado;
+		this.estado = estado.getCod();			//integer pega um enum de EstadoPagamento	
 	}
 
 	public Pedido getPedido() {

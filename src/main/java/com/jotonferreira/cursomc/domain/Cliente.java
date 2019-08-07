@@ -34,10 +34,10 @@ public class Cliente implements Serializable{
 	private String nome;
 	private String email;
 	private String cpfOuCnpj;
-	private Integer tipo;				//pega os enums id ***Em vez de pegar um TipoCliente, pega um inteiro
+	private Integer tipo;					//pega os enums id ***Em vez de pegar um TipoCliente, pega um inteiro
 	
-	@JsonManagedReference				//libera a serialização dos endereços 				
-	@OneToMany(mappedBy="cliente")		//cliente da classe Endereco que fez o mapeamento
+	@JsonManagedReference					//libera a serialização dos endereços 				
+	@OneToMany(mappedBy="cliente")			//cliente da classe Endereco que fez o mapeamento
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	//Set é uma coleção e não aceita repetição, sendo um conjunto de strings
@@ -45,7 +45,7 @@ public class Cliente implements Serializable{
 	@CollectionTable(name="TELEFONE")		//tabela auxiliar para guardar os telefones
 	private Set<String> telefones = new HashSet<>();
 	
-	
+	@OneToMany(mappedBy = "cliente")		//mapeamento feito pela classe Pedido
 	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public Cliente() {}
