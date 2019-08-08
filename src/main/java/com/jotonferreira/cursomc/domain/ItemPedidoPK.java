@@ -6,18 +6,18 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Embeddable	//indica que é um subTipo
+@Embeddable	//indica que é um subTipo. Essa classe nao é uma tabela no diagrama
 public class ItemPedidoPK implements Serializable{
 	//Chave-Primaria - chave composta de Produto e Pedido
 	
 	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne
-	@JoinColumn(name="pedido_id")
-	private Pedido pedido;
+	@JoinColumn(name="pedido_id")	//(id embutido)
+	private Pedido pedido;			//enxerga a tabela pedido
 	@ManyToOne
-	@JoinColumn(name="produto_id")
-	private Produto produto;
+	@JoinColumn(name="produto_id")	//(id embutido)
+	private Produto produto;		//enxerga a tabela produto
 	
 	public Pedido getPedido() {
 		return pedido;

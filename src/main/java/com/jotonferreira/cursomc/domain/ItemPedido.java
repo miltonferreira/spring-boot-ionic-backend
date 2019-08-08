@@ -2,12 +2,18 @@ package com.jotonferreira.cursomc.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+//faz mapeamento da tabela "ItemPedido" atraves do ID
+@Entity
 public class ItemPedido implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
 	//indica que essa classe tem como id um obj ItemPedidoPK
-	private ItemPedidoPK id = new ItemPedidoPK();
+	@EmbeddedId		//É uma (id embutido) numa classe auxilicar
+	private ItemPedidoPK id = new ItemPedidoPK();	//acessa "pedido_id" e "produto_id" da classe ItemPedidoPK
 	
 	private Double desconto;
 	private Integer quantidade;

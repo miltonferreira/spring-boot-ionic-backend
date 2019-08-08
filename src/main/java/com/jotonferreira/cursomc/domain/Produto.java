@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -43,6 +44,7 @@ public class Produto implements Serializable{
 	private List<Categoria> categorias = new ArrayList<>();	//nome indicado no diagrama de classe
 	
 	//cria uma coleçao de itens do pedido e evita que tenha produtos repedidos
+	@OneToMany(mappedBy = "id.produto")		//indica que a classe ItemPedido fez o mapeamento (id embutido)
 	private Set<ItemPedido> itens = new HashSet<>();
 	
 	public Produto() {}

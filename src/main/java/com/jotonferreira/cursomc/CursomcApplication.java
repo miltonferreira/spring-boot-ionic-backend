@@ -13,6 +13,7 @@ import com.jotonferreira.cursomc.domain.Cidade;
 import com.jotonferreira.cursomc.domain.Cliente;
 import com.jotonferreira.cursomc.domain.Endereco;
 import com.jotonferreira.cursomc.domain.Estado;
+import com.jotonferreira.cursomc.domain.ItemPedido;
 import com.jotonferreira.cursomc.domain.Pagamento;
 import com.jotonferreira.cursomc.domain.PagamentoComBoleto;
 import com.jotonferreira.cursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.jotonferreira.cursomc.repositories.CidadeRepository;
 import com.jotonferreira.cursomc.repositories.ClienteRepository;
 import com.jotonferreira.cursomc.repositories.EnderecoRepository;
 import com.jotonferreira.cursomc.repositories.EstadoRepository;
+import com.jotonferreira.cursomc.repositories.ItemPedidoRepository;
 import com.jotonferreira.cursomc.repositories.PagamentoRepository;
 import com.jotonferreira.cursomc.repositories.PedidoRepository;
 import com.jotonferreira.cursomc.repositories.ProdutoRepository;
@@ -33,21 +35,23 @@ import com.jotonferreira.cursomc.repositories.ProdutoRepository;
 public class CursomcApplication implements CommandLineRunner{
 	
 	@Autowired
-	private CategoriaRepository	categoriaRepository;	//interface responsável por busca, salvar, alterar, deletar informações
+	private CategoriaRepository	categoriaRepository;			//interface responsável por busca, salvar, alterar, deletar informações
 	@Autowired
-	private ProdutoRepository	produtoRepository;		//interface responsável por busca, salvar, alterar, deletar informações
+	private ProdutoRepository	produtoRepository;				//interface responsável por busca, salvar, alterar, deletar informações
 	@Autowired
-	private EstadoRepository	estadoRepository;		//interface responsável por busca, salvar, alterar, deletar informações
+	private EstadoRepository	estadoRepository;				//interface responsável por busca, salvar, alterar, deletar informações
 	@Autowired
-	private CidadeRepository	cidadeRepository;		//interface responsável por busca, salvar, alterar, deletar informações
+	private CidadeRepository	cidadeRepository;				//interface responsável por busca, salvar, alterar, deletar informações
 	@Autowired
-	private ClienteRepository	clienteRepository;		//interface responsável por busca, salvar, alterar, deletar informações
+	private ClienteRepository	clienteRepository;				//interface responsável por busca, salvar, alterar, deletar informações
 	@Autowired
-	private EnderecoRepository	enderecoRepository;		//interface responsável por busca, salvar, alterar, deletar informações
+	private EnderecoRepository	enderecoRepository;				//interface responsável por busca, salvar, alterar, deletar informações
 	@Autowired
-	private PagamentoRepository	pagamentoRepository;	//interface responsável por busca, salvar, alterar, deletar informações
+	private PagamentoRepository	pagamentoRepository;			//interface responsável por busca, salvar, alterar, deletar informações
 	@Autowired
-	private PedidoRepository	pedidoRepository;		//interface responsável por busca, salvar, alterar, deletar informações
+	private PedidoRepository	pedidoRepository;				//interface responsável por busca, salvar, alterar, deletar informações
+	@Autowired
+	private ItemPedidoRepository	itemPedidoRepository;		//interface responsável por busca, salvar, alterar, deletar informações
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -120,6 +124,19 @@ public class CursomcApplication implements CommandLineRunner{
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));			//salva os pedidos no banco de dados
 		
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));		//salva os pagamentos no banco de dados
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.0, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));				//indica quais sao os produtos do pedido 1
+		ped2.getItens().addAll(Arrays.asList(ip3));						//indica quais sao os produtos do pedido 2
+		
+		p1.getItens().addAll(Arrays.asList(ip1));						//produto conhece seu pedido
+		p2.getItens().addAll(Arrays.asList(ip3));						//produto conhece seu pedido
+		p3.getItens().addAll(Arrays.asList(ip2));						//produto conhece seu pedido
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));		//Salva ItensPedidos no banco de dados
 		
 	}
 

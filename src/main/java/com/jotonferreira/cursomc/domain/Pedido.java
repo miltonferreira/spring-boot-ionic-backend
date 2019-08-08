@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 //faz mapeamento da tabela "Pedido" atraves do ID
@@ -38,6 +39,7 @@ public class Pedido implements Serializable{
 	private Endereco enderecoDeEntrega;
 	
 	//cria uma coleçao de itens do pedido e evita que tenha produtos repedidos
+	@OneToMany(mappedBy = "id.pedido")		//indica que a classe ItemPedido fez o mapeamento (id embutido)
 	private Set<ItemPedido> itens = new HashSet<>();
 	
 	public Pedido() {}
