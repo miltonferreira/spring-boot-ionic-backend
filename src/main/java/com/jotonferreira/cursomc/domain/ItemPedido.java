@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 //faz mapeamento da tabela "ItemPedido" atraves do ID
 @Entity
 public class ItemPedido implements Serializable{
@@ -12,6 +14,7 @@ public class ItemPedido implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	//indica que essa classe tem como id um obj ItemPedidoPK
+	@JsonIgnore		//Nao vai ser serializado pedidos nem produtos
 	@EmbeddedId		//É uma (id embutido) numa classe auxilicar
 	private ItemPedidoPK id = new ItemPedidoPK();	//acessa "pedido_id" e "produto_id" da classe ItemPedidoPK
 	
@@ -33,10 +36,12 @@ public class ItemPedido implements Serializable{
 	}
 	
 	//Tem acesso ao get do Pedido na classe ItemPedidoPK
+	@JsonIgnore								//Nao vai ser serializado. Tudo que começa com get é serializado
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
 	//Tem acesso ao get do Produto na classe ItemPedidoPK
+	//@JsonIgnore								//Nao vai ser serializado. Tudo que começa com get é serializado
 	public Produto getProduto() {
 		return id.getProduto();
 	}

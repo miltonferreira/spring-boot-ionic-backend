@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /*
 "Camada de dominio"
@@ -44,6 +45,7 @@ public class Produto implements Serializable{
 	private List<Categoria> categorias = new ArrayList<>();	//nome indicado no diagrama de classe
 	
 	//cria uma coleçao de itens do pedido e evita que tenha produtos repedidos
+	@JsonIgnore								//Nao vai ser serializado os itens da lista
 	@OneToMany(mappedBy = "id.produto")		//indica que a classe ItemPedido fez o mapeamento (id embutido)
 	private Set<ItemPedido> itens = new HashSet<>();
 	
@@ -57,6 +59,7 @@ public class Produto implements Serializable{
 	}
 	
 	//Faz uma lista de itens do pedido
+	@JsonIgnore								//Nao vai ser serializado. Tudo que começa com get é serializado
 	public List<Pedido> getPedidos(){
 		List<Pedido> lista = new ArrayList<>();
 		

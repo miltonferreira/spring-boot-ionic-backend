@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.jotonferreira.cursomc.domain.enums.EstadoPagamento;
 
 //abstract evita que a classe seja instanciada, somente as subClasses sao instanciadas
@@ -24,6 +25,7 @@ public abstract class Pagamento implements Serializable{
 	private Integer id;
 	private Integer estado;
 	
+	@JsonBackReference				//Nao permite que pedidos sejam serializados
 	@OneToOne
 	@JoinColumn(name="pedido_id")	//nome da tabela
 	@MapsId							//garante que id seja o mesmo para pedido/pagamento
