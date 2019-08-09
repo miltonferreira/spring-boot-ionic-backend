@@ -14,8 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+//import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jotonferreira.cursomc.domain.enums.TipoCliente;
 
 /*
@@ -37,7 +38,7 @@ public class Cliente implements Serializable{
 	private String cpfOuCnpj;
 	private Integer tipo;					//pega os enums id ***Em vez de pegar um TipoCliente, pega um inteiro
 	
-	@JsonManagedReference					//libera a serialização dos endereços 				
+	//@JsonManagedReference					//libera a serialização dos endereços ***apagar porque usa o @JsonIgnore 				
 	@OneToMany(mappedBy="cliente")			//cliente da classe Endereco que fez o mapeamento
 	private List<Endereco> enderecos = new ArrayList<>();
 	
@@ -46,7 +47,8 @@ public class Cliente implements Serializable{
 	@CollectionTable(name="TELEFONE")		//tabela auxiliar para guardar os telefones
 	private Set<String> telefones = new HashSet<>();
 	
-	@JsonBackReference						//Nao permite que pedidos sejam serializados
+	//@JsonBackReference					//Nao permite que pedidos sejam serializados ***apagar porque usa o @JsonIgnore
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")		//mapeamento feito pela classe Pedido
 	private List<Pedido> pedidos = new ArrayList<>();
 	

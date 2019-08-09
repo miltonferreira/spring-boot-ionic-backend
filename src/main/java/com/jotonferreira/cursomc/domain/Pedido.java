@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+//import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 //faz mapeamento da tabela "Pedido" atraves do ID
 @Entity
@@ -33,11 +33,11 @@ public class Pedido implements Serializable{
 	private Date instante;
 	
 	//evita erro de entidade transiente quando for salva pedido e pagamento
-	@JsonManagedReference										//permite serializar o pagamento
+	//@JsonManagedReference										//permite serializar o pagamento
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido") 	//indica que foi mapeado pela classe Pagamento
 	private Pagamento pagamento;
 	
-	@JsonManagedReference										//permite serializar o cliente
+	//@JsonManagedReference										//permite serializar o cliente
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")							//nome chave-estrangeira
 	private Cliente cliente;

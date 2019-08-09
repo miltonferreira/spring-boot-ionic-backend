@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+//import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /*
 "Camada de dominio"
@@ -28,7 +28,7 @@ public class Cidade implements Serializable{
 	private String nome;
 	
 	//Mapeamento para banco de dados
-	@JsonManagedReference				//libera a serialização do estado
+	//@JsonManagedReference				//libera a serialização do estado ***apagar porque usa o @JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="estado_id")
 	private Estado estado;				//Cidade tem somente um estado, por isso nao tem lista
