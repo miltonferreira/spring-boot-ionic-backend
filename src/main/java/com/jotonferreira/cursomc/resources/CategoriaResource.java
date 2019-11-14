@@ -59,4 +59,14 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build(); // retorna um conteudo vazio por ser void
 	}
 	
+	//Controlador REST, encontra uma categoria com id indicado
+		@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+		public ResponseEntity<Void> delete(@PathVariable Integer id) {
+			
+			service.delete(id); // escolhe id da categoria que vai deletar
+			
+			return ResponseEntity.noContent().build(); // retorna um conteudo vazio por ser void
+			
+		}
+	
 }
