@@ -1,6 +1,8 @@
 package com.jotonferreira.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jotonferreira.cursomc.domain.Categoria;
+import com.jotonferreira.cursomc.dto.CategoriaDTO;
 import com.jotonferreira.cursomc.services.CategoriaService;
 
 /*
@@ -66,6 +69,18 @@ public class CategoriaResource {
 			service.delete(id); // escolhe id da categoria que vai deletar
 			
 			return ResponseEntity.noContent().build(); // retorna um conteudo vazio por ser void
+			
+		}
+		
+		//Controlador REST, encontra uma lista de categorias
+		@RequestMapping(method=RequestMethod.GET)
+		public ResponseEntity<List<CategoriaDTO>> findAll() {
+			
+			List<Categoria> list = service.findAll();
+			
+			List<CategoriaDTO> listDtio = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList()); // transforma categorias em categoriasDto
+			
+			return ResponseEntity.ok().body(listDtio); // retorna a lista de categoriasDto
 			
 		}
 	
