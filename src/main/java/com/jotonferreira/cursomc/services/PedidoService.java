@@ -21,7 +21,7 @@ public class PedidoService {
 	private PedidoRepository repo;					//Classe é interface
 	
 	//Metodo que procura o obj pelo id indicado
-	public Pedido buscar(Integer id) {
+	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		//Caso não encontre/não exista o id, o "orElseThrow()" lança mensagem de erro personalizada
 		return obj.orElseThrow(() -> new ObjectNotFoundException(

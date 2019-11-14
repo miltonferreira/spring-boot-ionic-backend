@@ -1,8 +1,5 @@
 package com.jotonferreira.cursomc.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,9 +26,9 @@ public class PedidoResource {
 	
 	//Controlador REST, encontra uma categoria com id indicado
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 		
-		Pedido obj = service.buscar(id);							//executa o serviço de buscar a id
+		Pedido obj = service.find(id);							//executa o serviço de buscar a id
 		return ResponseEntity.ok().body(obj);
 		
 	}

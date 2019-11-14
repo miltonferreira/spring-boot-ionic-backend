@@ -21,7 +21,7 @@ public class ClienteService {
 	private ClienteRepository repo;					//Classe é interface
 	
 	//Metodo que procura o obj pelo id indicado
-	public Cliente buscar(Integer id) {
+	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repo.findById(id);
 		//Caso não encontre/não exista o id, o "orElseThrow()" lança mensagem de erro personalizada
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
