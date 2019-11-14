@@ -20,12 +20,18 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo;					//Classe é interface
 	
-	//Metodo que procura o obj pelo id indicado
+	// Metodo que procura o obj pelo id indicado
 	public Categoria buscar(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
 		//Caso não encontre/não exista o id, o "orElseThrow()" lança mensagem de erro personalizada
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! id: " + id + ", Tipo: " + Categoria.class.getName()));	
+	}
+	
+	// salva uma nova categoria no BD
+	public Categoria insert(Categoria obj) {
+		obj.setId(null);
+		return repo.save(obj); // se tiver um id será uma atualização e não uma nova categoria
 	}
 	
 }
