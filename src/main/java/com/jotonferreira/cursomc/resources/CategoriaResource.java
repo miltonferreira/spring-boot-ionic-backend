@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +46,9 @@ public class CategoriaResource {
 	
 	// HTTP = 201 indica que foi criado nova categoria
 	@RequestMapping(method = RequestMethod.POST) // indica que é uma inserção de nova categoria
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj){ // @RequestBody faz obj Json ser convertido para java
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto){ // @RequestBody faz obj Json ser convertido para java - @Valid indica que existe requisitos para add nova categoria
+		
+		Categoria obj = service.fromDTO(objDto); // pegas as infos do CategoriaDTO e cria uma Categoria sem lista de produtos associados
 		
 		obj = service.insert(obj);
 		
@@ -56,7 +60,9 @@ public class CategoriaResource {
 	
 	// HTTP = 204 No Content indica que foi atualizado categoria
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id){
+		
+		Categoria obj = service.fromDTO(objDto); // pegas as infos do CategoriaDTO e cria uma Categoria sem lista de produtos associados
 		
 		obj.setId(id); // pega a id da categoria
 		
