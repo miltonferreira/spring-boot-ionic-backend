@@ -36,7 +36,7 @@ public class ClienteService {
 	}
 	
 	
-	// atualiza a categoria
+	// atualiza a cliente
 	public Cliente update(Cliente obj) {
 			
 		Cliente newObj = find(obj.getId()); // verifica se a categoria existe

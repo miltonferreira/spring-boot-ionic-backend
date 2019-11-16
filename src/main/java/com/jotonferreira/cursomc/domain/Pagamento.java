@@ -37,7 +37,7 @@ public abstract class Pagamento implements Serializable{
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado.getCod();			//integer pega um enum de EstadoPagamento
+		this.estado = (estado == null) ? null : estado.getCod();			//integer pega um enum de EstadoPagamento - se o tipo for nulo, atribui nulo, caso contrario add o tipo
 		this.pedido = pedido;
 	}
 
