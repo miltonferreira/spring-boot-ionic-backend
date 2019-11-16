@@ -71,41 +71,41 @@ public class CategoriaResource {
 	}
 	
 	//Controlador REST, encontra uma categoria com id indicado
-		@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-		public ResponseEntity<Void> delete(@PathVariable Integer id) {
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 			
-			service.delete(id); // escolhe id da categoria que vai deletar
+		service.delete(id); // escolhe id da categoria que vai deletar
 			
-			return ResponseEntity.noContent().build(); // retorna um conteudo vazio por ser void
+		return ResponseEntity.noContent().build(); // retorna um conteudo vazio por ser void
 			
-		}
+	}
 		
-		//Controlador REST, encontra uma lista de categorias
-		@RequestMapping(method=RequestMethod.GET)
-		public ResponseEntity<List<CategoriaDTO>> findAll() {
+	//Controlador REST, encontra uma lista de categorias
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
 			
-			List<Categoria> list = service.findAll();
+		List<Categoria> list = service.findAll();
 			
-			List<CategoriaDTO> listDtio = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList()); // transforma categorias em categoriasDto
+		List<CategoriaDTO> listDtio = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList()); // transforma categorias em categoriasDto
 			
-			return ResponseEntity.ok().body(listDtio); // retorna a lista de categoriasDto
+		return ResponseEntity.ok().body(listDtio); // retorna a lista de categoriasDto
 			
-		}
+	}
 		
-		//Controlador REST, encontra uma lista de categorias
-		@RequestMapping(value="/page", method=RequestMethod.GET)
-		public ResponseEntity<Page<CategoriaDTO>> findPage(
-				@RequestParam(value="page", defaultValue="0") Integer page, // @RequestParam é um parametro opcional
-				@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, //linesPerPage = linhas por pagina
-				@RequestParam(value="orderBy", defaultValue="id") String orderBy, //nome indica qual campo ordena a lista
-				@RequestParam(value="direction", defaultValue="ASC") String direction) { // ASC = ordenação ascedente
+	//Controlador REST, encontra uma lista de categorias
+	@RequestMapping(value="/page", method=RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> findPage(
+			@RequestParam(value="page", defaultValue="0") Integer page, // @RequestParam é um parametro opcional
+			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, //linesPerPage = linhas por pagina
+			@RequestParam(value="orderBy", defaultValue="id") String orderBy, //nome indica qual campo ordena a lista
+			@RequestParam(value="direction", defaultValue="ASC") String direction) { // ASC = ordenação ascedente
 					
-			Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction); //
+		Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction); //
 					
-			Page<CategoriaDTO> listDtio = list.map(obj -> new CategoriaDTO(obj)); // transforma categorias em paginação
+		Page<CategoriaDTO> listDtio = list.map(obj -> new CategoriaDTO(obj)); // transforma categorias em paginação
 					
-			return ResponseEntity.ok().body(listDtio); // retorna a lista de categoriasDto
+		return ResponseEntity.ok().body(listDtio); // retorna a lista de categoriasDto
 					
-		}
+	}
 	
 }
