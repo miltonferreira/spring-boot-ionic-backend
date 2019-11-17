@@ -45,7 +45,7 @@ public class ClienteService {
 	}
 	
 	// salva uma nova cliente no BD
-	@Transactional // 
+	@Transactional // como insere o cliente, endereço e telefones, o @Transactional faz de forma transacional, onde manda tudo ou nada
 	public Cliente insert(Cliente obj) {
 		
 		obj.setId(null);

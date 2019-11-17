@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -39,7 +40,7 @@ public class Cliente implements Serializable{
 	private Integer tipo;					//pega os enums id ***Em vez de pegar um TipoCliente, pega um inteiro
 	
 	//@JsonManagedReference					//libera a serialização dos endereços ***apagar porque usa o @JsonIgnore 				
-	@OneToMany(mappedBy="cliente")			//cliente da classe Endereco que fez o mapeamento
+	@OneToMany(mappedBy="cliente", cascade = CascadeType.ALL)			//cliente da classe Endereco que fez o mapeamento, qualquer alteração em cliente, reflete em endereços com o CascadeType.ALL, inclusive deletar
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	//Set é uma coleção e não aceita repetição, sendo um conjunto de strings
