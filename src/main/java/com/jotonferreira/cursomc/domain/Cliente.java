@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +36,10 @@ public class Cliente implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	//geração automatica de ID (chave primaria) dos clientes
 	private Integer id;
 	private String nome;
+	
+	@Column(unique = true) // garante que não vai ter repedição de email, caso tente criar outra conta com o email
 	private String email;
+	
 	private String cpfOuCnpj;
 	private Integer tipo;					//pega os enums id ***Em vez de pegar um TipoCliente, pega um inteiro
 	
