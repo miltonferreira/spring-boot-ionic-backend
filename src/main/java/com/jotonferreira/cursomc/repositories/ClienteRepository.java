@@ -16,6 +16,6 @@ import com.jotonferreira.cursomc.domain.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 	
 	@Transactional(readOnly = true) // indica que é somente leitura e faz mais rapido a pesquisa
-	Cliente findByEmail(String email); // busca no banco de dados um cliente, passando um email como argumento
+	Cliente findByEmail(String email); // busca no banco de dados um cliente, passando um email como argumento *** metodo implementando pela propria IDE Spring Boot
 	
 }
