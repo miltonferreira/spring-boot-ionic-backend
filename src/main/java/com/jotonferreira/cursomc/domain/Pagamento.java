@@ -11,12 +11,14 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.jotonferreira.cursomc.domain.enums.EstadoPagamento;
 
 //abstract evita que a classe seja instanciada, somente as subClasses sao instanciadas
 //faz mapeamento da tabela "Pagamento" atraves do ID
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)	//faz tabela separadas para as subClasses
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type") // classe pagamento vai ter um campo adicional chamado @type
 public abstract class Pagamento implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

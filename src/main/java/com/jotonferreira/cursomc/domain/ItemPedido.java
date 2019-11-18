@@ -45,10 +45,21 @@ public class ItemPedido implements Serializable{
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
+	
+	// recebe as infos do pedido
+	public void setPedido(Pedido pedido) {
+		id.setPedido(pedido);
+	}
+	
 	//Tem acesso ao get do Produto na classe ItemPedidoPK
 	//@JsonIgnore								//Nao vai ser serializado. Tudo que começa com get é serializado
 	public Produto getProduto() {
 		return id.getProduto();
+	}
+	
+	// recebe as infos do produto
+	public void setProduto(Produto produto) {
+		id.setProduto(produto);
 	}
 
 	public ItemPedidoPK getId() {
