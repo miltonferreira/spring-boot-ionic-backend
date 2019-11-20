@@ -43,6 +43,9 @@ public class PedidoService {
 	@Autowired
 	private ClienteService clienteService;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	//Metodo que procura o obj pelo id indicado
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
@@ -85,7 +88,8 @@ public class PedidoService {
 		
 		itemPedidoRepository.saveAll(obj.getItens()); // salva os pedidos no banco de dados
 		
-		System.out.println(obj); // imprimi infos do Pedido
+		//System.out.println(obj); // imprimi infos do Pedido
+		emailService.sendOrderConfirmationEmail(obj);
 		
 		return obj;
 				
