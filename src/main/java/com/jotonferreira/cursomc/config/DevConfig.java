@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.jotonferreira.cursomc.services.DBService;
+import com.jotonferreira.cursomc.services.EmailService;
+import com.jotonferreira.cursomc.services.SmtpEmailService;
 
 @Configuration
 @Profile("dev")
@@ -34,6 +36,11 @@ public class DevConfig {
 		bdService.instantiateTestDatabase(); // cria as infos do Banco de dados de teste
 		
 		return true;
+	}
+	
+	@Bean // usando Bean essa classe fica disponivel como componenete no sistema, quando alguma classe chamar através do @Autowired, esse metodo é invocado para uso
+	public EmailService emailService() {
+		return new SmtpEmailService(); // quando o EmailService for usado na classe PedidoService, se cria a classe SmtpEmailService para ser usada
 	}
 	
 }

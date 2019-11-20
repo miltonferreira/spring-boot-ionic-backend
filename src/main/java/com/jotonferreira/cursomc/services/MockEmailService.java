@@ -7,7 +7,7 @@ import org.springframework.mail.SimpleMailMessage;
 public class MockEmailService extends AbstractEmailService{
 	// faz um envio fake de um email, mostrano o log das infos
 
-	 // indica que essa classe que vai enviar o log
+	// indica que essa classe que vai enviar o log
 	private static final Logger LOG = LoggerFactory.getLogger(MockEmailService.class);
 	
 	@Override
