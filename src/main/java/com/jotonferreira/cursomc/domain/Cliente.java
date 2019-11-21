@@ -41,10 +41,13 @@ public class Cliente implements Serializable{
 	private String email;
 	
 	private String cpfOuCnpj;
-	private Integer tipo;					//pega os enums id ***Em vez de pegar um TipoCliente, pega um inteiro
+	private Integer tipo; //pega os enums id ***Em vez de pegar um TipoCliente, pega um inteiro
+	
+	@JsonIgnore // não mostra a senha no Json
+	private String senha;
 	
 	//@JsonManagedReference					//libera a serialização dos endereços ***apagar porque usa o @JsonIgnore 				
-	@OneToMany(mappedBy="cliente", cascade = CascadeType.ALL)			//cliente da classe Endereco que fez o mapeamento, qualquer alteração em cliente, reflete em endereços com o CascadeType.ALL, inclusive deletar
+	@OneToMany(mappedBy="cliente", cascade = CascadeType.ALL) //cliente da classe Endereco que fez o mapeamento, qualquer alteração em cliente, reflete em endereços com o CascadeType.ALL, inclusive deletar
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	//Set é uma coleção e não aceita repetição, sendo um conjunto de strings
@@ -59,13 +62,14 @@ public class Cliente implements Serializable{
 	
 	public Cliente() {}
 
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = (tipo == null) ? null : tipo.getCod(); // se o tipo for nulo, atribui nulo, caso contrario add o tipo
+		this.senha = senha;
 	}
 
 	public Integer getId() {
@@ -133,6 +137,14 @@ public class Cliente implements Serializable{
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
 	@Override
 	public int hashCode() {
@@ -158,6 +170,5 @@ public class Cliente implements Serializable{
 			return false;
 		return true;
 	}
-
 	
 }

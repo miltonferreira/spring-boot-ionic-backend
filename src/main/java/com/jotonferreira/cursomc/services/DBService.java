@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jotonferreira.cursomc.domain.Categoria;
@@ -51,6 +52,8 @@ public class DBService {
 	private PedidoRepository	pedidoRepository;				//interface responsável por busca, salvar, alterar, deletar informações
 	@Autowired
 	private ItemPedidoRepository	itemPedidoRepository;		//interface responsável por busca, salvar, alterar, deletar informações
+	@Autowired
+	private BCryptPasswordEncoder pe; // dependencia que codifica a senha do cliente, o obj esta sendo instanciado na classe SecurityConfig.java quando é requisitado
 	
 	public void instantiateTestDatabase() throws ParseException{
 		
@@ -117,7 +120,7 @@ public class DBService {
 				
 				cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));		//salva as cidades no banco de dados
 				
-				Cliente cli1 = new Cliente(null, "Maria Silva", "jotonferreira@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+				Cliente cli1 = new Cliente(null, "Maria Silva", "jotonferreira@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
 				cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 				
 				clienteRepository.saveAll(Arrays.asList(cli1));				//salva os clientes no banco de dados

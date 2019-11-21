@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,9 @@ public class ClienteService {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe; // dependencia que codifica a senha do cliente, o obj esta sendo instanciado na classe SecurityConfig.java quando é requisitado
 	
 	//Metodo que procura o obj pelo id indicado
 	public Cliente find(Integer id) {
@@ -101,16 +105,16 @@ public class ClienteService {
 			
 	}
 		
-	// instancia um novo cliente pegando um ClienteDTO
+	// instancia um novo cliente pegando um ClienteDTO existente
 	public Cliente fromDTO(ClienteDTO objDto) {
-		return new Cliente(objDto.getId(), objDto.getNome(),objDto.getEmail(), null, null);
+		return new Cliente(objDto.getId(), objDto.getNome(),objDto.getEmail(), null, null, null);
 		
 	}
 	
 	// instancia um novo cliente pegando um ClienteDTO com infos pessoais, endereço e telefones
 	public Cliente fromDTO(ClienteNewDTO objDto) {
 		
-		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()), pe.encode(objDto.getSenha()));
 		
 		Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
 		
