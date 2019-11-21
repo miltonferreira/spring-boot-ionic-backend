@@ -89,7 +89,8 @@ public class PedidoService {
 		itemPedidoRepository.saveAll(obj.getItens()); // salva os pedidos no banco de dados
 		
 		//System.out.println(obj); // imprimi infos do Pedido
-		emailService.sendOrderConfirmationEmail(obj);
+		//emailService.sendOrderConfirmationEmail(obj); // somente texto
+		emailService.sendOrderConfirmationHtmlEmail(obj); // formatado com HTML
 		
 		return obj;
 				
