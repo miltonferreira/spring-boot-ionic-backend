@@ -20,6 +20,7 @@ import com.jotonferreira.cursomc.domain.PagamentoComCartao;
 import com.jotonferreira.cursomc.domain.Pedido;
 import com.jotonferreira.cursomc.domain.Produto;
 import com.jotonferreira.cursomc.domain.enums.EstadoPagamento;
+import com.jotonferreira.cursomc.domain.enums.Perfil;
 import com.jotonferreira.cursomc.domain.enums.TipoCliente;
 import com.jotonferreira.cursomc.repositories.CategoriaRepository;
 import com.jotonferreira.cursomc.repositories.CidadeRepository;
@@ -123,14 +124,20 @@ public class DBService {
 				Cliente cli1 = new Cliente(null, "Maria Silva", "jotonferreira@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
 				cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 				
-				clienteRepository.saveAll(Arrays.asList(cli1));				//salva os clientes no banco de dados
+				Cliente cli2 = new Cliente(null, "Ana Costa", "jmferreira07@gmail.com", "44925518089", TipoCliente.PESSOAFISICA, pe.encode("123"));
+				cli1.getTelefones().addAll(Arrays.asList("93883321", "34252625"));
+				cli2.addPerfil(Perfil.ADMIN); // torna esse cliente adm
+				
+				clienteRepository.saveAll(Arrays.asList(cli1, cli2));				//salva os clientes no banco de dados
 				
 				Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
 				Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+				Endereco e3 = new Endereco(null, "Avenida Floriano", "2106", null, "Centro", "281777012", cli2, c2);
 				
 				cli1.getEnderecos().addAll(Arrays.asList(e1, e2));			//o cliente conhece seus enderecos, mas enderecos nao conhece clientes
+				cli2.getEnderecos().addAll(Arrays.asList(e3));			//o cliente conhece seus enderecos, mas enderecos nao conhece clientes
 				
-				enderecoRepository.saveAll(Arrays.asList(e1, e2));			//salva os enderecos no banco de dados
+				enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));			//salva os enderecos no banco de dados
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");	//mascara de formataçao para data e hora
 				

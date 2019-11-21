@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +20,7 @@ import javax.persistence.OneToMany;
 
 //import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jotonferreira.cursomc.domain.enums.Perfil;
 //import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jotonferreira.cursomc.domain.enums.TipoCliente;
 
@@ -55,12 +58,18 @@ public class Cliente implements Serializable{
 	@CollectionTable(name="TELEFONE")		//tabela auxiliar para guardar os telefones
 	private Set<String> telefones = new HashSet<>();
 	
+	@ElementCollection(fetch=FetchType.EAGER) // ao chamar o cliente, tras junto o perfil dele
+	@CollectionTable(name="PERFIS")		//tabela auxiliar para guardar os perfis do cliente
+	private Set<Integer> perfis = new HashSet<>();
+	
 	//@JsonBackReference					//Nao permite que pedidos sejam serializados ***apagar porque usa o @JsonIgnore
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")		//mapeamento feito pela classe Pedido
 	private List<Pedido> pedidos = new ArrayList<>();
 	
-	public Cliente() {}
+	public Cliente() {
+		addPerfil(Perfil.CLIENTE); // qualquer cliente novo automaticamente é um cliente
+	}
 
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
 		super();
@@ -70,6 +79,7 @@ public class Cliente implements Serializable{
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = (tipo == null) ? null : tipo.getCod(); // se o tipo for nulo, atribui nulo, caso contrario add o tipo
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE); // qualquer cliente novo automaticamente é um cliente
 	}
 
 	public Integer getId() {
@@ -144,6 +154,14 @@ public class Cliente implements Serializable{
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public Set<Perfil> getPerfis(){
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet()); // retorna os perfis do cliente
+	}
+	
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod()); // adiciona um novo perfil ao cliente
 	}
 
 	@Override
