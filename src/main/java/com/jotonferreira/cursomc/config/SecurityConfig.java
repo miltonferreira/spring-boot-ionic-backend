@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.jotonferreira.cursomc.security.JWTAuthenticationFilter;
+import com.jotonferreira.cursomc.security.JWTAuthorizationFilter;
 import com.jotonferreira.cursomc.security.JWTUtil;
 
 @Configuration
@@ -58,6 +59,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		// authenticationManager() esta dentro da classe WebSecurityConfigurerAdapter
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		
+		// usado para autorizar acesso ao endPoint/restful requisitado
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // garante que o backEnd não vai criar sessão de usuario
 
