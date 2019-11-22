@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -24,6 +25,7 @@ import com.jotonferreira.cursomc.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) // só autoriza perfis especificos de acesso
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// classe de autenticação para acessar os restful
 	
@@ -40,7 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**"};
 	
 	// caminhos que estarão liberados para recuperar e ler os dados
-		private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/clientes/**" };
+	private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**/*" };
+	
+	// caminhos que estarão liberados para alterar, neste caso quando for preciso cadastra novo cliente
+	private static final String[] PUBLIC_MATCHERS_POST = { "/clientes/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -53,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable(); // permite multiplo acesso com web e mobile
 		
 		http.authorizeRequests()
+			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll() // caso quando for preciso cadastra novo cliente
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() // o que tiver em PUBLIC_MATCHERS_GET tem permissão somente leitura
 			.antMatchers(PUBLIC_MATCHERS).permitAll() // o que tiver em PUBLIC_MATCHERS tem permissão
 			.anyRequest().authenticated(); // o resto exige autenticação

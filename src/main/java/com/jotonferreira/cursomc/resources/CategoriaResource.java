@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +46,7 @@ public class CategoriaResource {
 	}
 	
 	// HTTP = 201 indica que foi criado nova categoria
+	@PreAuthorize("hasAnyRole('ADMIN')") // somente admins podem alterar as categorias
 	@RequestMapping(method = RequestMethod.POST) // indica que é uma inserção de nova categoria
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto){ // @RequestBody faz obj Json ser convertido para java - @Valid indica que existe requisitos para add nova categoria
 		
@@ -59,6 +61,7 @@ public class CategoriaResource {
 	}
 	
 	// HTTP = 204 No Content indica que foi atualizado categoria
+	@PreAuthorize("hasAnyRole('ADMIN')") // somente admins podem alterar as categorias
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id){
 		
@@ -71,6 +74,7 @@ public class CategoriaResource {
 	}
 	
 	//Controlador REST, encontra uma categoria com id indicado
+	@PreAuthorize("hasAnyRole('ADMIN')") // somente admins podem alterar as categorias
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 			
