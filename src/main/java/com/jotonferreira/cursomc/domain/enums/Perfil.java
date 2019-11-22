@@ -1,6 +1,7 @@
 package com.jotonferreira.cursomc.domain.enums;
 
 public enum Perfil {
+	// perfil para indicar quais acessos o usuario tem dentro do sistema
 	
 	ADMIN(1, "ROLE_ADMIN"),
 	CLIENTE(2, "ROLE_CLIENTE");
