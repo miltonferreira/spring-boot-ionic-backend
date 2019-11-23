@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jotonferreira.cursomc.domain.Cidade;
 import com.jotonferreira.cursomc.domain.Cliente;
 import com.jotonferreira.cursomc.domain.Endereco;
+import com.jotonferreira.cursomc.domain.enums.Perfil;
 import com.jotonferreira.cursomc.domain.enums.TipoCliente;
 import com.jotonferreira.cursomc.dto.ClienteDTO;
 import com.jotonferreira.cursomc.dto.ClienteNewDTO;
 import com.jotonferreira.cursomc.repositories.ClienteRepository;
 import com.jotonferreira.cursomc.repositories.EnderecoRepository;
+import com.jotonferreira.cursomc.security.UserSS;
+import com.jotonferreira.cursomc.services.exceptions.AuthorizationException;
 import com.jotonferreira.cursomc.services.exceptions.DataIntegrityException;
 import com.jotonferreira.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -42,6 +45,14 @@ public class ClienteService {
 	
 	//Metodo que procura o obj pelo id indicado
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated(); // pega o usuario logado
+		
+		// se o user for null ou nao for um Adm e o id nao é o id do usuario no BD
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		//Caso não encontre/não exista o id, o "orElseThrow()" lança mensagem de erro personalizada
 		return obj.orElseThrow(() -> new ObjectNotFoundException(

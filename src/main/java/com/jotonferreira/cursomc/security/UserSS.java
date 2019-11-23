@@ -68,5 +68,10 @@ public class UserSS implements UserDetails{
 	public boolean isEnabled() {
 		return true; // indica que a conta está ativa
 	}
+	
+	// verifica se é um determninado perfil do sistema *** cliente, admin
+	public boolean hasRole(Perfil perfil) {
+		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+	}
 
 }
