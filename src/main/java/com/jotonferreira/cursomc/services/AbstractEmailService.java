@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.jotonferreira.cursomc.domain.Cliente;
 import com.jotonferreira.cursomc.domain.Pedido;
 
 public abstract class AbstractEmailService implements EmailService{
@@ -102,6 +102,34 @@ public abstract class AbstractEmailService implements EmailService{
 		
 		
 		return mimeMessage;
+	}
+	
+	// envia um email com a nova senha do usuario
+	@Override
+	public void sendNewPasswordEmail(Cliente cliente, String newPass) {
+		
+		SimpleMailMessage sm = prepareNewPasswordEmail(cliente, newPass);
+		
+		sendEmail(sm);
+		
+	}
+	
+	// estrutura para envia o email com a nova senha
+	protected SimpleMailMessage prepareNewPasswordEmail(Cliente cliente, String newPass) {
+		
+		SimpleMailMessage sm = new SimpleMailMessage();
+		
+		// atributos basicos de um email
+		sm.setTo(cliente.getEmail()); // envia email para o cliente
+		sm.setFrom(sender); // email do entregador do pedido
+		sm.setSubject("Solicitação de nova senha");
+		sm.setSentDate(new Date(System.currentTimeMillis())); // pega data do servidor
+		
+		// corpo do email
+		sm.setText("nova senha: " + newPass);
+		
+		return sm;
+		
 	}
 	
 }
