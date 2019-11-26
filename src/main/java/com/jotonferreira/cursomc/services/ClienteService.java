@@ -150,9 +150,22 @@ public class ClienteService {
 		return cli;
 	}
 	
-	// pega uma foto do cliente
+	// pega uma foto do cliente e salva no BD
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3service.uploadFile(multipartFile);
+		
+		UserSS user = UserService.authenticated(); // pega o usuario logado
+		
+		if(user == null) { //significa que usuario não está logado
+			throw new AuthorizationException("Acesso Negado");
+		}
+		
+		URI uri = s3service.uploadFile(multipartFile); // pega o endereço da imagem
+		
+		Cliente cli = find(user.getId()); // pega o usuario pelo id
+		cli.setImageUrl(uri.toString()); // associa o endereço da imagem as infos do cliente
+		repo.save(cli); // salva novamente o cliente no BD
+		
+		return uri;
 	}
 	
 }
