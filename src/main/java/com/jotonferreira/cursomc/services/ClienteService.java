@@ -1,5 +1,6 @@
 package com.jotonferreira.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jotonferreira.cursomc.domain.Cidade;
 import com.jotonferreira.cursomc.domain.Cliente;
@@ -35,13 +37,16 @@ import com.jotonferreira.cursomc.services.exceptions.ObjectNotFoundException;
 public class ClienteService {
 	
 	@Autowired
-	private ClienteRepository repo;					//Classe é interface
+	private ClienteRepository repo; // Classe é interface
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder pe; // dependencia que codifica a senha do cliente, o obj esta sendo instanciado na classe SecurityConfig.java quando é requisitado
+	
+	@Autowired
+	private S3Service s3service;
 	
 	//Metodo que procura o obj pelo id indicado
 	public Cliente find(Integer id) {
@@ -143,6 +148,11 @@ public class ClienteService {
 		}
 		
 		return cli;
+	}
+	
+	// pega uma foto do cliente
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3service.uploadFile(multipartFile);
 	}
 	
 }

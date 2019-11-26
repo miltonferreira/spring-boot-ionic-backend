@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jotonferreira.cursomc.domain.Cliente;
@@ -110,6 +111,15 @@ public class ClienteResource {
 						
 		return ResponseEntity.ok().body(listDtio); // retorna a lista de categoriasDto
 						
+	}
+	
+	// HTTP = 201 indica que house sucesso no envio
+	@RequestMapping(value="/picture", method = RequestMethod.POST) // indica que é o caminho para enviar a foto do cliente
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam("file") MultipartFile file){ // @RequestParam para reconhecer que chegou o paramentro na requisição HTTP
+		
+		URI uri = service.uploadProfilePicture(file); // recebe a foto na requisição, sendo o upload da imagem retornando o endereço da imagem salva no S3 no uri
+				
+		return ResponseEntity.created(uri).build(); // retorna resposta 201 do HTTP coloca no cabeçalho o uri da imagem
 	}
 	
 }
