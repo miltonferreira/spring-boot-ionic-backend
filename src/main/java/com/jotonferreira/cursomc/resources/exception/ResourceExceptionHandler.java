@@ -9,8 +9,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.jotonferreira.cursomc.services.exceptions.AuthorizationException;
 import com.jotonferreira.cursomc.services.exceptions.DataIntegrityException;
+import com.jotonferreira.cursomc.services.exceptions.FileException;
 import com.jotonferreira.cursomc.services.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
@@ -55,8 +59,46 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request){
 			
 		StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis()); // indica que é um erro de acesso negado
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err); // mostra o erro fomatado em status, msg e tempo
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err); // mostra o erro fomatado em status, msg e tempo
 			
+	}
+	
+	//recebe a exceção e informações de erro com arquivos de imagens
+	@ExceptionHandler(FileException.class)
+	public ResponseEntity<StandardError> file(FileException e, HttpServletRequest request){
+				
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis()); // 
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err); // 
+				
+	}
+	
+	//recebe a exceção e informações de erro com serviço da amazon
+	@ExceptionHandler(AmazonServiceException.class)
+	public ResponseEntity<StandardError> AmazonService(AmazonServiceException e, HttpServletRequest request){
+		
+		HttpStatus code = HttpStatus.valueOf(e.getErrorCode()); // pega o codigo http do erro retornado pela amazon
+					
+		StandardError err = new StandardError(code.value(), e.getMessage(), System.currentTimeMillis()); // 
+		return ResponseEntity.status(code).body(err); // retorna o erro da amazon
+					
+	}
+	
+	//recebe a exceção e informações de erro de acesso do usuario
+	@ExceptionHandler(AmazonClientException.class)
+	public ResponseEntity<StandardError> amazonClient(AmazonClientException e, HttpServletRequest request){
+					
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis()); // 
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err); // 
+					
+	}
+	
+	//recebe a exceção e informações de erro de acesso do usuario
+	@ExceptionHandler(AmazonS3Exception.class)
+	public ResponseEntity<StandardError> amazonS3(AmazonS3Exception e, HttpServletRequest request){
+						
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis()); // 
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err); // 
+						
 	}
 	
 }
