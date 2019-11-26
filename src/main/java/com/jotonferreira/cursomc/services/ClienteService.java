@@ -56,6 +56,9 @@ public class ClienteService {
 	@Value("${img.prefix.client.profile}")
 	private String prefix; // personaliza o nome da imagem do cliente que vai ser enviado para o S3
 	
+	@Value("${img.profile.size}")
+	private Integer size;
+	
 	//Metodo que procura o obj pelo id indicado
 	public Cliente find(Integer id) {
 		
@@ -167,7 +170,9 @@ public class ClienteService {
 			throw new AuthorizationException("Acesso Negado");
 		}
 		
-		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile); // monta a imagem passada na requisição do usuario
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile); // instancia a imagem passada na requisição do usuario
+		jpgImage = imageService.cropSquare(jpgImage); // corta a imagem
+		jpgImage = imageService.resize(jpgImage, size); // redimensiona a imagem
 		
 		// monta o nome da imagem personalizada com base do usuario logado
 		String fileName = prefix + user.getId() + ".jpg";
