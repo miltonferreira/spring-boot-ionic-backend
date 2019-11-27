@@ -37,6 +37,9 @@ public class AuthResource {
 		
 		response.addHeader("Authorization", "Bearer " + token); // adiciona a resposta no header da requisição
 		
+		// Authorization é um cabeçalho personalizado, por isso é preciso dá uma instrução explicita para liberar a leitura do cabeçalho
+		response.addHeader("access-control-expose-headers", "Authorization");
+		
 		return ResponseEntity.noContent().build();
 	}
 	
