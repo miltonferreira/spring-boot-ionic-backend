@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**"};
 	
 	// caminhos que estarão liberados para recuperar e ler os dados
-	private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**" };
+	private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/estados/**" };
 	
 	// caminhos que estarão liberados para alterar, neste caso quando for preciso cadastra novo cliente
 	private static final String[] PUBLIC_MATCHERS_POST = { "/clientes", "/auth/forgot**" };
