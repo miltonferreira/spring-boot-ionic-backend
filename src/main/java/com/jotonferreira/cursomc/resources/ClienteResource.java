@@ -47,6 +47,13 @@ public class ClienteResource {
 		
 	}
 	
+	// inserindo o email do cliente e possivel visualizar infos do cliente
+	@RequestMapping(value="/email", method=RequestMethod.GET)
+	public ResponseEntity<Cliente> find(@RequestParam(value="value") String email) { // recebe um "email" como paramentro no valor do GET
+		Cliente obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj); // retorna o email do cliente na requisição
+	}
+	
 	// HTTP = 201 indica que foi criado nova categoria
 	@RequestMapping(method = RequestMethod.POST) // indica que é uma inserção de nova categoria
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto){ // @RequestBody faz obj Json ser convertido para java - @Valid indica que existe requisitos para add nova categoria

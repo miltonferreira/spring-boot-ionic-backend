@@ -5,6 +5,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.constraints.Email;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -122,6 +124,26 @@ public class ClienteService {
 	// retorna uma lista de categorias
 	public List<Cliente> findAll(){
 		return repo.findAll();
+	}
+	
+	//
+	public Cliente findByEmail(String email) {
+		
+		UserSS user = UserService.authenticated(); // pega o usuario logado
+		
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) { //
+			throw new AuthorizationException("Acesso Negado");
+		}
+		
+		Cliente obj = repo.findByEmail(email);
+		
+		if(obj == null) {
+			throw new ObjectNotFoundException("Objeto não encontrado! Id:" + user.getId()
+			+ ", Tipo: " + Cliente.class.getName());
+		}
+		
+		return obj;
+		
 	}
 		
 	// retorna uma paginação de categorias
