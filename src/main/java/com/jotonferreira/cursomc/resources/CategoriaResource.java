@@ -101,7 +101,7 @@ public class CategoriaResource {
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, // @RequestParam é um parametro opcional
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, //linesPerPage = linhas por pagina
-			@RequestParam(value="orderBy", defaultValue="id") String orderBy, //nome indica qual campo ordena a lista
+			@RequestParam(value="orderBy", defaultValue="nome") String orderBy, //nome indica qual campo ordena a lista, é possivel ordenar por id em defaultValue="nome"
 			@RequestParam(value="direction", defaultValue="ASC") String direction) { // ASC = ordenação ascedente
 					
 		Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction); //
